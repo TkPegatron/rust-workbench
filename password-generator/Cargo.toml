@@ -1,0 +1,32 @@
+[package]
+name = "genpass"
+description = "A rusty password generator"
+keywords = ["cli", "generator", "passwords", "cryptography"]
+authors = ["Elliana Perry <elliana.perry@gmail.com>"]
+version = "0.0.10"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+flate2 = "1.0"
+
+
+[dependencies]
+xdg = "2.5.2"
+rand = "0.8.5"
+rand_xorshift = "0.3.0"
+colored = "2"
+clap = { version = "4.0.15", features = ["derive","color"] }
+#argon2 = "0.4.1"
+#scrypt = "0.10.0"
+#sha-crypt = "0.4.0"
+#env_logger = "0.10.0"
+#rand_core = { version = "0.6", features = ["std"] }
+#log = { version = "0.4.17", features = ["std"] }
+
+[profile.release]
+strip = true  # Automatically strip symbols from the binary.
+opt-level = "z"  # Optimize for size.
+lto = true
+codegen-units = 1
