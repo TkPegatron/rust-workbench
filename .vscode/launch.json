@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug hdg-malware",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--manifest-path",
+                    "${workspaceFolder}/hdg-malware/Cargo.toml"
+                ],
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}/hdg-malware"
+        }
+    ]
+}

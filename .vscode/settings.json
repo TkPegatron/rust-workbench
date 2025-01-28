@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.linkedProjects": [
+    "flort-decoder/Cargo.toml"
+    "netcalc/Cargo.toml"
+  ]
+}
