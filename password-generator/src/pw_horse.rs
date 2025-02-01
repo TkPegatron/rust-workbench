@@ -2,7 +2,7 @@ use crate::constants;
 
 use colored::{ColoredString, Colorize};
 use constants::{ASCII_SYMBOLS, LOWERCASE, NUMBERS, SYMBOLS, UPPERCASE};
-use genpass::{rng_subst, str_vectorize_filter};
+use passwdgen::{rng_subst, str_vectorize_filter};
 
 pub struct Password {
     pub data: String,

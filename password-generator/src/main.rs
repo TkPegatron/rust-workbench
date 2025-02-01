@@ -18,6 +18,6 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let corpus = genpass::load_words(args.corpus);
+    let corpus = passwdgen::load_words(args.corpus);
     println!("{}", pw_horse::Password::new(corpus));
 }
