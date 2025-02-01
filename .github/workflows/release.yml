@@ -7,6 +7,8 @@ on:
 
 jobs:
   create-release:
+    permissions:
+      contents: write
     outputs:
       project_name: ${{ steps.extract_tag.outputs.project_name }}
       project_version: ${{ steps.extract_tag.outputs.project_version }}
@@ -33,7 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      releases: write
     strategy:
       matrix:
         include:
