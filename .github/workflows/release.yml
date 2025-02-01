@@ -2,9 +2,8 @@ name: Compile and Release Binaries
 
 on:
   push:
-    branches: [ main ]
-  tag:
-    pattern: "*/v*"
+    tags:
+      - "*/v*"
 
 jobs:
   create-release:
