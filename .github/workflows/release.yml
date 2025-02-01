@@ -34,7 +34,7 @@ jobs:
     needs: create-release
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     strategy:
       matrix:
         include:
