@@ -1,0 +1,62 @@
+name: Compile and Release Binaries
+
+on:
+  push:
+    branches: [ main ]
+  tag:
+    pattern: "*/v*"
+
+jobs:
+  create-release:
+    outputs:
+      project_name: ${{ steps.extract_tag.outputs.project_name }}
+      project_version: ${{ steps.extract_tag.outputs.project_version }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract project name and version from tag
+        id: extract_tag
+        run: |
+          echo "project_name=$(echo $GITHUB_REF | cut -d'/' -f3)" >> $GITHUB_OUTPUT
+          echo "project_version=$(echo $GITHUB_REF | cut -d'/' -f4)" >> $GITHUB_OUTPUT
+      - uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: true
+
+  build:
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      releases: write
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-musl
+            cross: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/setup-cross-toolchain-action@v1
+        if: matrix.cross
+        with:
+          target: ${{ matrix.target }}
+      - name: Build binary for ${{ needs.create-release.outputs.project_name }}
+        id: cargo_build
+        run: cargo build --release --package ${{ needs.create-release.outputs.project_name }}
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: |
+            target/${{ matrix.target }}/release/${{ needs.create-release.outputs.project_name }}
+          asset_name: |
+            ${{ needs.create-release.outputs.project_name }}-${{ needs.create-release.outputs.project_version }}-${{ matrix.target }}
+          asset_content_type: application/octet-stream
