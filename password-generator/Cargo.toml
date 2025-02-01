@@ -1,5 +1,5 @@
 [package]
-name = "genpass"
+name = "passwdgen"
 description = "A rusty password generator"
 keywords = ["cli", "generator", "passwords", "cryptography"]
 authors = ["Elliana Perry <elliana.perry@gmail.com>"]
